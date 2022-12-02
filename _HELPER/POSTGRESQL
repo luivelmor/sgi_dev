@@ -1,0 +1,56 @@
+#######################
+##### IMPORT DATA #####
+#######################
+psql sgi_django -U postgres -h 127.0.0.1 < ./data/backup/db
+
+
+#####################
+### CONFIGURATION ###
+#####################
+sudo apt install python3-dev libpq-dev
+pip install psycopg2
+
+
+sudo -u postgres psql
+\password postgres
+CREATE DATABASE sgi_django
+\l
+GRANT ALL PRIVILEGES ON DATABASE sgi_django TO postgres;
+\q
+
+
+### ALTERNATIVA ###
+CREATE DATABASE yourdbname;
+CREATE USER youruser WITH ENCRYPTED PASSWORD 'yourpass';
+GRANT ALL PRIVILEGES ON DATABASE yourdbname TO youruser;
+
+
+SELECT setval('auth_group_id_seq', (SELECT MAX(id) FROM auth_group)+1);
+SELECT setval('auth_group_permissions_id_seq', (SELECT MAX(id) FROM auth_group_permissions)+1);
+SELECT setval('auth_permission_id_seq', (SELECT MAX(id) FROM auth_permission)+1);
+SELECT setval('auth_user_id_seq', (SELECT MAX(id) FROM auth_user)+1);
+SELECT setval('auth_user_groups_id_seq', (SELECT MAX(id) FROM auth_user_groups)+1);
+SELECT setval('auth_user_user_permissions_id_seq', (SELECT MAX(id) FROM auth_user_user_permissions)+1);
+
+SELECT setval('django_admin_log_id_seq', (SELECT MAX(id) FROM django_admin_log)+1);
+SELECT setval('django_content_type_id_seq', (SELECT MAX(id) FROM django_content_type)+1);
+SELECT setval('django_migrations_id_seq', (SELECT MAX(id) FROM django_migrations)+1);
+
+SELECT setval('gorilla_event_id_seq', (SELECT MAX(id) FROM gorilla_event)+1);
+SELECT setval('gorilla_eventlog_id_seq', (SELECT MAX(id) FROM gorilla_eventlog)+1);
+SELECT setval('gorilla_manifest_id_seq', (SELECT MAX(id) FROM gorilla_manifest)+1);
+SELECT setval('gorilla_screenresolution_id_seq', (SELECT MAX(id) FROM gorilla_screenresolution)+1);
+SELECT setval('gorilla_toolwizstatus_id_seq', (SELECT MAX(id) FROM gorilla_toolwizstatus)+1);
+
+SELECT setval('inventory_device_id_seq', (SELECT MAX(id) FROM inventory_device)+1);
+SELECT setval('inventory_devicemodel_id_seq', (SELECT MAX(id) FROM inventory_devicemodel)+1);
+SELECT setval('inventory_devicemodeldriverfile_id_seq', (SELECT MAX(id) FROM inventory_devicemodeldriverfile)+1);
+SELECT setval('inventory_devicemodelfile_id_seq', (SELECT MAX(id) FROM inventory_devicemodelfile)+1);
+SELECT setval('inventory_deviceplace_id_seq', (SELECT MAX(id) FROM inventory_deviceplace)+1);
+SELECT setval('inventory_devicetype_id_seq', (SELECT MAX(id) FROM inventory_devicetype)+1);
+SELECT setval('inventory_driverfile_id_seq', (SELECT MAX(id) FROM inventory_driverfile)+1);
+SELECT setval('inventory_microphonefrequency_id_seq', (SELECT MAX(id) FROM inventory_microphonefrequency)+1);
+SELECT setval('inventory_modificationrequest_id_seq', (SELECT MAX(id) FROM inventory_modificationrequest)+1);
+SELECT setval('inventory_modificationrequestfile_id_seq', (SELECT MAX(id) FROM inventory_modificationrequestfile)+1);
+SELECT setval('inventory_place_id_seq', (SELECT MAX(id) FROM inventory_place)+1);
+SELECT setval('inventory_room_id_seq', (SELECT MAX(id) FROM inventory_room)+1);

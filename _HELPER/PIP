@@ -1,0 +1,6 @@
+# Output a list of installed packages into a requirements file (requirements.txt):
+pip freeze > requirements.txt
+
+# Upgrade all outdated packages
+# Edit requirements.txt, and replace all ‘==’ with ‘>=’. Use the ‘Replace All’ command in the editor.
+pip install -r requirements.txt --upgrade

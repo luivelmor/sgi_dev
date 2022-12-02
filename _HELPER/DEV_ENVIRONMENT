@@ -1,0 +1,91 @@
+***********
+*** ENV ***
+***********
+sudo apt update
+sudo apt upgrade -y
+sudo passwd root
+
+sudo apt install -y openssh-server
+ssh-keygen
+sudo nano .ssh/authorized_keys
+
+**********************
+*** DJANGO PROJECT ***
+**********************
+sudo apt-get install python3-pip apache2 libapache2-mod-wsgi-py3
+sudo pip3 install virtualenv
+
+mkdir /var/www/sgi_django
+sudo chown -R tecnico /var/www/sgi_django
+sudo chmod -R 755 /var/www/sgi_django
+cd /var/www/sgi_django
+
+virtualenv sgi_django_venv
+source /var/www/sgi_django/sgi_django_venv/bin/activate
+
+# Ya deberiamos estar dentro del entorno virtual de python
+(sgi_django_venv) $
+
+(sgi_django_venv) $ pip3 install django
+(sgi_django_venv) $ sudo django-admin startproject sgi_django
+(sgi_django_venv) $ nano myproject/settings.py
+    ALLOWED_HOSTS = ["server_domain_or_IP"]
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+(sgi_django_venv) $ cd /var/www/sgi_django/
+(sgi_django_venv) $ ./manage.py makemigrations
+(sgi_django_venv) $ ./manage.py migrate
+(sgi_django_venv) $ ./manage.py createsuperuser
+(sgi_django_venv) $ ./manage.py collectstatic
+
+************************
+*** instalar modulos ***
+************************
+(sgi_django_venv) $ pip3 install django-cas-ng
+(sgi_django_venv) $ pip3 install django-cleanup
+(sgi_django_venv) $ pip3 install django-imagekit
+(sgi_django_venv) $ pip3 install django-debug-toolbar
+(sgi_django_venv) $ pip3 install pillow
+
+# https://djangocas.dev/docs/latest/install.html
+    - git clone --depth 1 https://github.com/django-cas-ng/django-cas-ng.git
+    - python setup.py install
+
+comprobamos que se instalan correctamente mediante:
+(sgi_django_venv) $ pip freeze | grep nombre_modulo
+
+*******************
+*** mysqlclient ***
+*******************
+(sgi_django_venv) $ sudo apt install python3-dev default-libmysqlclient-dev build-essential
+(sgi_django_venv) $ sudo pip3 install mysqlclient
+
+***************
+*** mariadb ***
+***************
+(sgi_django_venv) $ deactivate
+sudo apt update
+sudo apt install -y mariadb-server
+sudo mysql_secure_installation
+mysql -u root -p
+CREATE DATABASE sgi_django;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'abcd1234';
+
+
+***********
+*** GIT ***
+***********
+git init
+git add .
+git commit -m "inicio"
+git branch -M master
+
+git config --global user.email "luivelmor@gmail.com"
+git config --global user.name "Luis Vela"
+git remote add origin https://github.com/luivelmor/SGI_django.git
+git push origin master [--force]
+
+
+
+

@@ -1,0 +1,51 @@
+//***********************
+//*** Export database ***
+//***********************
+Single Database:
+	mysqldump -u root -p -x --databases sgi_django > ./data/backup/sgi_django.sql
+
+All Databases:
+	mysqldump -u root -p -x -A > ./data/backup/all_dbs.sql
+
+//***********************
+//*** Import database ***
+//***********************
+sudo mysql -u root -p sgi_django < DB_sgi_backup.backup
+
+
+//********************
+//*** table schema ***
+//********************
+
+In MySQL, databases don't have an engine type; tables have engine types.
+
+You can query the information_schema database:
+
+SELECT `ENGINE` FROM `information_schema`.`TABLES`
+  WHERE `TABLE_SCHEMA`='your_database_name' AND `TABLE_NAME`='your_table_name';
+
+
+//*********************
+//*** insert values ***
+//*********************
+INSERT INTO inventory_place (name, room_id)
+VALUES
+    ("iMac1.01", 7),("iMac1.02", 7),("iMac1.03", 7),("iMac1.04", 7),("iMac1.05", 7),("iMac1.06", 7),("iMac1.07", 7),("iMac1.08", 7),
+    ("iMac1.09", 7),("iMac1.10", 7),("iMac1.11", 7),("iMac1.12", 7),("iMac1.13", 7),("iMac1.14", 7),("iMac1.15", 7),("iMac1.16", 7),
+    ("iMac1.17", 7),("iMac1.18", 7),("iMac1.19", 7),("iMac1.20", 7),("iMac1.21", 7),("iMac1.22", 7),("iMac1.23", 7),("iMac1.24", 7),
+    ("iMac1.25", 7),("iMac1.26", 7),("iMac1.27", 7),("iMac1.28", 7),("iMac1.29", 7),("iMac1.30", 7),("iMac1.31", 7),("iMac1.32", 7),
+    ("iMac1.33", 7),("iMac1.34", 7),("iMac1.35", 7),("iMac1.36", 7),("iMac1.37", 7),("iMac1.38", 7),("iMac1.39", 7),("iMac1.40", 7);
+
+
+INSERT INTO gorilla_manifest (name, ip, place_id)
+VALUES
+    ("aulaTeoria23_manifest", "10.1.21.232", 176),
+    ("aulaTeoria24_manifest", "10.1.21.233", 177),
+    ("aulaTeoria25_manifest", "10.1.21.234", 178),
+    ("aulaTeoria26_manifest", "10.1.21.235", 179),
+    ("aulaTeoria27_manifest", "10.1.21.236", 180),
+    ("aulaTeoria31_manifest", "10.1.21.237", 181),
+    ("aulaTeoria32_manifest", "10.1.21.238", 182),
+    ("aulaTeoria33_manifest", "10.1.21.239", 183),
+    ("aulaTeoria34_manifest", "10.1.21.240", 184),
+    ("aulaTeoria35_manifest", "10.1.21.241", 185);

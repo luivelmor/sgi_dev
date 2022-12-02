@@ -1,0 +1,4 @@
+source /var/www/sgi_django/sgi_django_venv/bin/activate
+./manage.py makemessages -l es
+./manage.py compilemessages
+sudo systemctl restart apache2

@@ -1,0 +1,64 @@
+**************************************************************
+*** NOTA 1: hosts file ***************************************
+**************************************************************
+Añadimos:
+    - 172.17.134.171		incidenciasfcom-pre.us.es
+    - 172.17.134.171		multipass
+
+
+**************************************************************
+*** NOTA 2: Acceder desde el anfitrion al hosting de la VM ***
+**************************************************************
+Desde la VM:
+    - sudo ufw allow 8000
+Abrimos el navegador y escribimos:
+    - http://multipass:8000
+
+ó
+
+Desde el equipo anfitrión:
+    - ssh -L 8000:localhost:8000 ubuntu@multipass
+Abrimos el navegador y escribimos:
+    - http://multipass:8000
+    - http://incidenciasfcom-pre.us.es:8000
+
+
+***************************************
+*** NOTA 3: allowed_hosts en django ***
+***************************************
+Editamos el fichero (/var/www/sgi_django/sgi_django/settings.py) y añadimos:
+    ALLOWED_HOSTS = [
+        '172.17.134.171',
+        'incidenciasfcom-pre.us.es',
+        'localhost',
+        '127.0.0.1']
+Ejecutamos:
+    - sudo python3 manage.py runserver 0.0.0.0:80
+Abrimos el navegador y escribimos:
+    - http://multipass
+    - http://incidenciasfcom-pre.us.es
+
+
+*********************************************************************************************************
+*** NOTA 4: Proxy inverso desde anfitrión (http://localhost:8082) a anfitrión (http://localhost:8081) ***
+**********	Desde VM http://http://172.23.82.234:80/ a anfitrión (http://localhost:8081) no se puede  ***
+*********************************************************************************************************
+En el fichero httpd.conf
+    - LoadModule proxy_module modules/mod_proxy.so
+    - LoadModule proxy_http_module modules/mod_proxy_http.so
+
+En el fichero httpd-vhosts.conf
+    <VirtualHost *:80>
+        ProxyRequests On
+        <Proxy>
+            Order deny,allow
+            Allow from all
+        </Proxy>
+        ProxyPass "/"  "http://localhost:8000/"
+        ProxyPassReverse "/"  "localhost:8000"
+        Header set Access-Control-Allow-Origin "*"
+    </VirtualHost>
+
+Abrimos el navegador y escribimos:
+    - http://multipass
+    - http://incidenciasfcom-pre.us.es

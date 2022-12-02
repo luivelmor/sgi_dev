@@ -1,0 +1,44 @@
+class GetEventLogIdFilter(admin.SimpleListFilter):
+    title = 'Event Id'
+    parameter_name = 'filter_by_event_log_id'
+
+    def lookups(self, request, model_admin):
+        eventIds = set([c.event for c in EventLog.objects.all()])
+        return [(c.eventId, c.eventId) for c in eventIds]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(event__eventId=self.value())
+        else:
+            return queryset
+
+#########################################################################################
+#########################################################################################
+#########################################################################################
+
+class GetRoomWarrantyStatusFilter(admin.SimpleListFilter):
+    title = 'Garantía'
+    parameter_name = 'filter_by_warranty_status'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('in_warranty', 'Con algún dispositivo en garantía'),
+            ('no_warranty', 'Sin dispositivos en garantía'),
+        )
+
+    def queryset(self, request, queryset):
+        value = self.value()
+        if value == 'in_warranty':
+            queryset1 = Invoice.objects.filter(warranty_to__gt=datetime.date.today())
+            queryset2 = InvoiceDevice.objects.filter(invoice__in=queryset1).values('device')
+            queryset3 = Device.objects.filter(id__in=queryset2).values('room')
+            queryset4 = Room.objects.filter(id__in=queryset3)
+            return queryset4
+        elif value == 'no_warranty':
+            queryset1 = Invoice.objects.filter(warranty_to__gt=datetime.date.today())
+            queryset2 = InvoiceDevice.objects.filter(invoice__in=queryset1).values('device')
+            queryset3 = Device.objects.filter(id__in=queryset2).values('room')
+            queryset4 = Room.objects.exclude(id__in=queryset3)
+            return queryset4
+
+        return queryset

@@ -1,0 +1,74 @@
+***********************************************
+*************  COMANDOS GIT  ******************
+***********************************************
+Comandos git
+•	clean cache:       git rm -r --cached .
+•	tracked files:     git ls-tree -r master --name-only
+•	diff:              git diff --stat --cached origin/master
+•	ignore file:       git add -f file_path
+•	test ssh key:      ssh -T git@github.com
+•	set-url:           git remote set-url origin git@github.com:username/your-repository.git
+
+***********************************************
+**************  GIT INIT  *********************
+***********************************************
+git init
+git config --global user.email "luivelmor@gmail.com"
+git config --global user.name "Luis Vela"
+git add .
+git remote add origin https://github.com/luivelmor/sgi_django.git
+git remote set-url origin git@github.com:luivelmor/sgi_django.git
+git commit -m "inicio"
+git branch -M master
+git push origin master
+
+
+…or create a new repository on the command line
+echo "# sgi_django" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M master
+git remote add origin https://github.com/luivelmor/sgi_django.git
+git push -u origin master
+
+
+…or push an existing repository from the command line
+git remote add origin https://github.com/luivelmor/sgi_django.git
+git branch -M master
+git push -u origin master
+
+
+
+******************
+*** NEW BRANCH ***
+******************
+git branch -a
+git checkout -b new_branch
+git branch -a
+git remote add new_branch new_branch
+git push origin new_branch
+
+
+*********************
+*** DELETE BRANCH ***
+*********************
+git branch -a
+git checkout -b new_branch
+git branch -a
+git remote add new_branch new_branch
+git push origin new_branch
+
+git pull origin master
+git merge test
+git push origin master
+
+
+********************************
+*** MERGE BRANCH INTO MASTER ***
+********************************
+git branch -a
+git checkout another_branch
+git branch -d branch_to_delete
+git push origin :[branch_to_delete]
+git branch -a

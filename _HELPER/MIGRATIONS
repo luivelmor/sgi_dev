@@ -1,0 +1,6 @@
+//***************************
+//*** Migration / migrate ***
+//***************************
+Store migration:            python3 manage.py makemigrations inventory
+Migration SQL:              python3 manage.py sqlmigrate inventory 0001
+Apply migrations:           python3 manage.py migrate

@@ -1,0 +1,5 @@
+2021-12-13 09:19:50.234319 - Se eliminaron los ultimos 20 eventLogs de cada manifest
+2021-12-15 11:20:06.479960 - Se eliminaron los ultimos 20 eventLogs de cada manifest
+2021-12-15 11:22:46.843771 - Se eliminaron los ultimos 20 eventLogs de cada manifest
+2021-12-15 11:23:11.597189 - Se eliminaron los ultimos 20 eventLogs de cada manifest
+2021-12-15 11:40:27.497404 - Se eliminaron los ultimos 20 eventLogs de cada manifest

@@ -1,0 +1,31 @@
+# Versión
+python -m django --version
+# Errores
+python -Wa manage.py test
+
+************************************************
+******************** DJANGO ********************
+************************************************
+Create project:             django-admin startproject mysite
+Development server:         python3 manage.py runserver
+Changing runserver port:    python3 manage.py runserver 0:8000
+Create "polls" app:         python3 manage.py startapp polls
+Start app:                  source /var/www/sgi_django/sgi_django_venv/bin/activate
+                            python manage.py startapp gorilla
+
+Store migration:            python3 manage.py makemigrations inventory
+Migration SQL:              python3 manage.py sqlmigrate inventory 0001
+Apply migrations:           python3 manage.py migrate
+Python shell:               python3 manage.py shell
+
+Create admin user:          python3 manage.py createsuperuser
+Static files:               ./manage.py collectstatic
+
+
+************************************************
+**************** UPGRADE DJANGO ****************
+************************************************
+python -Wa manage.py test
+python -m pip install -U Django
+python -Wa manage.py test
+

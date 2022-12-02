@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="4b390471-9101-4746-9db7-487ec50ee078" name="sgi" url="http://10.1.21.24">
+        <fileTransfer rootFolder="/var/www/sgi_django" accessType="SFTP" host="10.1.21.24" port="22" sshConfigId="8b3b5041-3849-4998-8383-89e63262786f" sshConfig="tecnico@10.1.21.24:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

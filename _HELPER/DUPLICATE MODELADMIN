@@ -1,0 +1,18 @@
+###############################################
+############ Duplicate Model Admin ############
+###############################################
+
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'pubdate','user')
+
+class MyPost(Post):
+    class Meta:
+        proxy = True
+
+class MyPostAdmin(PostAdmin):
+    def get_queryset(self, request):
+        return self.model.objects.filter(user = request.user)
+
+
+admin.site.register(Post, PostAdmin)
+admin.site.register(MyPost, MyPostAdmin)

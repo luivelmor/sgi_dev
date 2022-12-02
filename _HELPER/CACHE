@@ -1,0 +1,5 @@
+http://10.1.21.24/admin/clearcache/
+
+ó
+
+(sgi_django_venv) tecnico@sgi:/var/www/sgi_django$ python manage.py clearcache

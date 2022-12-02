@@ -1,0 +1,96 @@
+1- Virtual env: source sgi_django_venv/bin/activate
+2- Python shell: python manage.py shell
+
+*****************
+*** 3- Shell: ***
+*****************
+
+from inventory.models import DeviceModel, Device, Invoice
+
+Store.objects.all()
+Store.objects.all().get(id=1)
+Store.objects.filter(deviceModel__id=19)
+store19 = Store.objects.filter(deviceModel__id=19)
+
+Device.objects.filter(deviceModel__id=19).count()
+Store.objects.filter(deviceModel__id=19).count()
+Store.objects.filter(deviceModel__id=19)[0].quantity
+
+
+************************
+*** 4- Django-admin: ***
+************************
+https://docs.djangoproject.com/en/3.1/ref/models/expressions/
+
+
+#################################################################################
+### QUERYSET: OBTENER IDS
+#################################################################################
+
+def move_device_to_store(DeviceAdmin, request, queryset):
+    ids = queryset.values_list('pk', flat=True)
+    for id in ids:
+        device_place = DevicePlace.objects.filter(device_id=id)
+        device_place.delete()
+    queryset.update(room=1)
+#################################################################################
+
+
+
+#################################################################################
+### QUERYSET: FILTRAR Y OBTENER PRIMER ELEMENTO
+#################################################################################
+
+item = Store.objects.filter(deviceModel__id=obj.id).first()
+value = int(item.quantity)
+#################################################################################
+
+
+
+#################################################################################
+### QUERYSET: CONTADOR DE RESULTADOS
+#################################################################################
+
+En DeviceModelAdmin:
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        queryset = queryset.annotate(device_count=Count('device'))
+
+        return queryset
+
+Usar como: obj.device_count
+#################################################################################
+
+
+
+#################################################################################
+### QUERYSET: FILTRAR POR ID
+#################################################################################
+
+from inventory.models import Store, DeviceModel, Device
+device = Device.objects.all().get(id=11)
+item1 = Store.objects.create(device_id=device.id)
+#################################################################################
+
+
+
+#################################################################################
+### QUERYSET: DISTINCT
+#################################################################################
+
+>>> Device.objects.filter(room__id=1).values('deviceModel__id').distinct()
+<QuerySet [{'deviceModel__id': 75}, {'deviceModel__id': 24}]>
+>>> query = Device.objects.filter(room__id=1).only('deviceModel__id').distinct()
+>>> print (query.query)
+SELECT DISTINCT `inventory_device`.`id`, `inventory_device`.`deviceModel_id` FROM `inventory_device` WHERE `inventory_device`.`room_id` = 1
+>>>
+#################################################################################
+
+
+#################################################################################
+### QUERYSET: JOIN TABLES
+#################################################################################
+queryset1 = Invoice.objects.filter(warranty_to__gt=datetime.date.today())           # Filtramos en la tabla Invoice
+queryset2 = InvoiceDevice.objects.filter(invoice__in=queryset1).values('device')    # Join InvoiceDevice X Invoice + y nos quedamos sólo la columna 'device'
+queryset3 = Device.objects.filter(id__in=queryset2)                                 # Join Device X Queryset anterior
+queryset4 = Device.objects.exclude(id__in=queryset2)                                # ! (Join Device X Queryset anterior)
